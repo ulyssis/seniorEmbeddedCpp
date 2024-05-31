@@ -1,0 +1,2 @@
+This is a simple FIFO implemented as a double linked queue.
+configuration files in .vscode are used to compile and debug.
