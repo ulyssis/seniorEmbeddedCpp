@@ -7,13 +7,11 @@ public:
     Node(int val)
     {
         next = nullptr;
-        prev = nullptr;
         this->val = val;
     }
     ~Node() {}
     int val;
     Node *next;
-    Node *prev;
 };
 
 class Queue
@@ -25,24 +23,6 @@ private:
     int capacity;
 
 public:
-    Queue(int cap, int size) : head(nullptr), tail(nullptr), size(size), capacity(cap)
-    {
-        if (!size)
-        {
-            Node *newNode = new Node(0);
-            head = newNode;
-            Node *movingHead = head;
-
-            for (int i = 1; i < size - 1; i++)
-            {
-                movingHead->next = newNode;
-                newNode->prev = movingHead;
-                movingHead = newNode;
-            }
-            tail = movingHead;
-        }
-    }
-
     Queue(int cap) : head(nullptr), tail(nullptr), size(0), capacity(cap) {}
 
     ~Queue()
@@ -54,11 +34,14 @@ public:
             delete temp;
         }
     }
+
     Node *dequeue();
-    void queue(Node *node);
+    void queue(int val);
     int get_size();
     void print();
 };
+
+// copy assignment operator, move constructor, and move assignment operator
 
 void Queue::print()
 {
@@ -77,8 +60,14 @@ void Queue::print()
         std::cout << std::endl;
     }
 }
-void Queue::queue(Node *node)
+
+void Queue::queue(int val)
 {
+    if (size == capacity)
+    {
+        std::cout << "the queue is full!" << std::endl;
+    }
+    Node *node = new Node(val);
     if (tail == nullptr)
     {
         head = node;
@@ -87,7 +76,6 @@ void Queue::queue(Node *node)
     else
     {
         tail->next = node;
-        node->prev = tail;
         tail = node;
     }
     size++;
@@ -95,26 +83,21 @@ void Queue::queue(Node *node)
 
 Node *Queue::dequeue()
 {
-    if (tail == nullptr)
+    if (head == nullptr)
     {
         size = 0;
         return nullptr;
     }
-    else if (tail->prev != nullptr)
+
+    Node *temp = head;
+    head = head->next;
+    if (head == nullptr)
     {
-        Node *temp = tail;
-        tail = temp->prev;
-        tail->next = temp;
-        size--;
-        return temp;
-    }
-    else
-    {
-        size = 0;
-        head = nullptr;
         tail = nullptr;
-        return tail;
     }
+    size--;
+    temp->next = nullptr;
+    return temp;
 }
 
 int Queue::get_size()
@@ -129,8 +112,7 @@ int main()
     Queue *q = new Queue(10);
     for (int i = 0; i < 10; i++)
     {
-        Node *n = new Node(i);
-        q->queue(n);
+        q->queue(i);
     }
 
     q->print();
