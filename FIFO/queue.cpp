@@ -229,7 +229,8 @@ int main()
     q3->print();
 
     std::cout << "\ndeep copy is used:" << std::endl;
-    Queue q4 = *q;             // copy constructor is triggered
+    Queue q4 = *q; // copy constructor is triggered
+    // q4 is on stack, its usage on heap is taken care by destructor
     Queue *q5 = new Queue(30); // constructor is triggered
     *q5 = *q;                  // copy assignment operator is triggered
 
@@ -257,9 +258,5 @@ int main()
     std::cout << "capacity of q8 is " << q8.get_capacity() << std::endl;
 
     delete q;
-
-    // Double free
-    // delete q3;
-    // delete q5;
     return 0;
 }
