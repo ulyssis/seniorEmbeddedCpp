@@ -1,61 +1,7 @@
+// queue.cpp
 #include <iostream>
 #include <utility>
-
-class Node
-{
-public:
-    Node() : val(), next(nullptr) {}
-    Node(int val)
-    {
-        next = nullptr;
-        this->val = val;
-    }
-    ~Node() {}
-    int val;
-    Node *next;
-};
-
-class Queue
-{
-private:
-    Node *head;
-    Node *tail;
-    int size;
-    int capacity;
-
-public:
-    // constructor
-    Queue(int cap) : head(nullptr), tail(nullptr), size(0), capacity(cap) {}
-
-    // deconstructor
-    ~Queue()
-    {
-        while (head != nullptr)
-        {
-            Node *temp = head;
-            head = temp->next;
-            delete temp;
-        }
-    }
-
-    // copy constructor
-    Queue(const Queue &other);
-
-    // copy assignment operator
-    Queue &operator=(const Queue &other);
-
-    // move constructor
-    Queue(Queue &&other) noexcept;
-
-    // move operator operator
-    Queue &operator=(Queue &&other) noexcept;
-
-    Node *dequeue();
-    void queue(int val);
-    int get_size();
-    void print();
-    int get_capacity();
-};
+#include "queue.h"
 
 // copy constructor
 Queue::Queue(const Queue &other) : head(nullptr), tail(nullptr), size(0), capacity(other.capacity)
@@ -119,7 +65,7 @@ Queue &Queue::operator=(Queue &&other) noexcept
         // transfer resources from other to this
         head = other.head;
         tail = other.tail;
-        size = 0;
+        size = other.size;
         capacity = other.capacity;
 
         // Leave other in a valid but empty state
@@ -149,7 +95,7 @@ void Queue::print()
     }
 }
 
-int Queue::get_capacity()
+int Queue::get_capacity() const
 {
     return this->capacity;
 }
@@ -159,6 +105,7 @@ void Queue::queue(int val)
     if (size == capacity)
     {
         std::cout << "the queue is full!" << std::endl;
+        return; // Added return to handle the full queue case properly
     }
     Node *node = new Node(val);
     if (tail == nullptr)
@@ -193,7 +140,7 @@ Node *Queue::dequeue()
     return temp;
 }
 
-int Queue::get_size()
+int Queue::get_size() const
 {
     return size;
 }
