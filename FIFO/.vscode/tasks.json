@@ -9,7 +9,7 @@
 				"-fcolor-diagnostics",
 				"-fansi-escape-codes",
 				"-g",
-				"${workspaceFolder}/queue.cpp",
+				"${workspaceFolder}/lib/queue.cpp",
 				"-o",
 				"${workspaceFolder}/queue"
 			],
