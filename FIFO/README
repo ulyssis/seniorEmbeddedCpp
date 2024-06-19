@@ -1,13 +1,16 @@
-This is a simple FIFO implemented as a double linked queue.
-configuration files in .vscode are used to compile and debug.
+This is a simple FIFO implemented as a single linked queue.
+It is coupled with google test.
+
+
 
 This project is equipped with 2 build methods
 ' .vscode configuration files
 '' uncomment the main() in the queue.cpp
 '' ctrl+shif+B, to compile the project, but without the google test
 
-' use make file to compile both the project and google tests
+' use cmake to compile both the project and google tests
 '' make sure main() in queue.cpp is commented
 '' mkdir build && cd build
 '' cmake ..
 '' make
+'' run the exeuctable: test/googleTestTutorial_tests
